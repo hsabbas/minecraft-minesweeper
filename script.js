@@ -1,6 +1,6 @@
 const Minesweeper = () => {
     let gameStatus = 'in progress';
-    let sizeSetting = '';
+    // let sizeSetting = '';
     let difficulty = '';
     let size = 0;
     let mines = [];
@@ -9,14 +9,32 @@ const Minesweeper = () => {
     let cellsLeft = 0;
     let numberOfMines = 0;
 
-    function createGame(){
+    function startGame(difficultyPicked = 'normal'){
+        setDifficulty(difficultyPicked.toLowerCase);
         initializeArrays();
         addMines();
         setAdjacency();
     }
 
+    function setDifficulty(theDifficulty){
+        difficulty = theDifficulty;
+        switch(difficulty){
+            case 'easy':
+                size = 9;
+                numberOfMines = 10;
+                break;
+            case 'normal':
+                size = 16;
+                numberOfMines = 40;
+                break;
+            case 'hard':
+                size = 24;
+                numberOfMines = 99;
+                break;
+        }
+    }
+
     function addMines(){
-        numberOfMines = getNumberOfMines();
         let minesSet = 0;
         let position = {};
 
@@ -30,10 +48,9 @@ const Minesweeper = () => {
     }
 
     function initializeArrays(){
-        size = getSize();
         cellsLeft = size * size;
         mines = new Array(size).fill(false).map(() => new Array(size).fill(false));
-        revealed = new Array(size).fill(false).map(() => new Array(size).fill(false));
+        revealed = new Array(size).fill("sealed").map(() => new Array(size).fill("sealed"));
         adjacentMines = new Array(size).fill(0).map(() => new Array(size).fill(0));
     }
 
@@ -97,12 +114,8 @@ const Minesweeper = () => {
     }
 
     function revealCell(x, y){
-        if(!outOfBounds(x, y)){
-            if(revealed[x][y]){
-                return;
-            }
-
-            revealed[x][y] = true;
+        if(!outOfBounds(x, y) && revealed[x][y] ==='sealed'){
+            revealed[x][y] = "revealed";
             cellsLeft--;
 
             if(mines[x][y]){
@@ -126,17 +139,37 @@ const Minesweeper = () => {
         }
     }
 
+    function flagCell(x, y){
+        if(revealed[x][y] == 'sealed'){
+            revealed[x][y] = "flagged";
+        } else if(revealed[x][y] == 'flagged') {
+            revealed[x][y] ='sealed';
+        }
+    }
+
     function gameOver(result){
         gameStatus = result;
-        revealed = new Array(size).fill(true).map(() => new Array(size).fill(true));
+        revealed = new Array(size).fill('revealed').map(() => new Array(size).fill('revealed'));
     }
 
     function outOfBounds(x, y){
         return (x < 0 || x >= size || y < 0 || y >= size);
     }
+
+    return{
+        startGame,
+        revealCell,
+        flagCell
+    }
 }
 
 
 const displayController = () => {
-    
+    const gameGrid = document.getElementById('grid-container');
+    let minesweeper = new Minesweeper();
+
+    function start(difficulty){
+        minesweeper.startGame(difficulty);
+
+    }
 }
