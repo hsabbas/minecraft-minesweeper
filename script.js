@@ -167,32 +167,36 @@ const Minesweeper = () => {
 
 const DisplayController = () => {
     const startScreen = document.getElementById('start-screen');
+    const gameBoard = document.getElementById('game-board');
     const gameGrid = document.getElementById('grid-container');
     const startBtn = document.getElementById('start-btn');
-    const diffChoice = document.querySelectorAll('input[name="difficulty"]');
+    const difficultyChoices = document.querySelectorAll('input[name="difficulty"]');
     let minesweeper = Minesweeper();
     let size = 0;
 
     function start(){
-        let difficulty = medium;
-        for(opt of diffChoice){
-            if(opt.checked){
-                difficulty = opt.value;
+        let difficulty = normal;
+        for(choice of difficultyChoices){
+            if(choice.checked){
+                difficulty = choice.value;
             }
         }
         size = minesweeper.startGame(difficulty);
         startScreen.style.display = 'none';
+        gameBoard.style.display = 'block';
         createBoard(size);
     }
 
     function createBoard(size){
         gameGrid.style.display = "grid";
-        gameGrid.style.gridTemplateColumns = `repeat(${size}, 50px)`;
-        gameGrid.style.gridTemplateRows = `repeat(${size}, 50px)`;
+        gameGrid.style.gridTemplateColumns = `repeat(${size}, 20px)`;
+        gameGrid.style.gridTemplateRows = `repeat(${size}, 20px)`;
+        gameGrid.style.width = `${size * 20 + size - 1}px`;
+        gameGrid.style.height = `${size * 20 + size - 1}px`;
 
         for(let i = 0; i < size ** 2; i++){
             let cell = document.createElement("div");
-            cell.className = "unrevealed";
+            cell.className = "cell unrevealed";
             gameGrid.appendChild(cell);
         }
     }
