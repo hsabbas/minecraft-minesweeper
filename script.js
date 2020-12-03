@@ -10,10 +10,11 @@ const Minesweeper = () => {
     let numberOfMines = 0;
 
     function startGame(difficultyPicked = 'normal'){
-        setDifficulty(difficultyPicked.toLowerCase);
+        setDifficulty(difficultyPicked.toLowerCase());
         initializeArrays();
         addMines();
         setAdjacency();
+        return size;
     }
 
     function setDifficulty(theDifficulty){
@@ -61,7 +62,7 @@ const Minesweeper = () => {
     }
 
     function getRandomIndex(){
-        return Math.floor(Math.random * (size + 1));
+        return Math.floor(Math.random() * size);
     }
 
     function setAdjacency(){
@@ -164,12 +165,44 @@ const Minesweeper = () => {
 }
 
 
-const displayController = () => {
+const DisplayController = () => {
+    const startScreen = document.getElementById('start-screen');
     const gameGrid = document.getElementById('grid-container');
-    let minesweeper = new Minesweeper();
+    const startBtn = document.getElementById('start-btn');
+    const diffChoice = document.querySelectorAll('input[name="difficulty"]');
+    let minesweeper = Minesweeper();
+    let size = 0;
 
-    function start(difficulty){
-        minesweeper.startGame(difficulty);
-
+    function start(){
+        let difficulty = medium;
+        for(opt of diffChoice){
+            if(opt.checked){
+                difficulty = opt.value;
+            }
+        }
+        size = minesweeper.startGame(difficulty);
+        startScreen.style.display = 'none';
+        createBoard(size);
     }
+
+    function createBoard(size){
+        gameGrid.style.display = "grid";
+        gameGrid.style.gridTemplateColumns = `repeat(${size}, 50px)`;
+        gameGrid.style.gridTemplateRows = `repeat(${size}, 50px)`;
+
+        for(let i = 0; i < size ** 2; i++){
+            let cell = document.createElement("div");
+            cell.className = "unrevealed";
+            gameGrid.appendChild(cell);
+        }
+    }
+
+    function initialize(){
+        startBtn.addEventListener("click", start);
+    }
+
+    return{initialize};
 }
+
+let displayController = DisplayController();
+displayController.initialize();
