@@ -127,14 +127,14 @@ const Minesweeper = () => {
             }
 
             if(adjacentMines[x][y] == 0){
-                revealCell[x - 1][y - 1];
-                revealCell[x][y - 1];
-                revealCell[x + 1][y - 1];
-                revealCell[x - 1][y];
-                revealCell[x + 1][y];
-                revealCell[x - 1][y + 1];
-                revealCell[x][y + 1];
-                revealCell[x + 1][y + 1];
+                revealCell(x - 1, y - 1);
+                revealCell(x, y - 1);
+                revealCell(x + 1, y - 1);
+                revealCell(x - 1, y);
+                revealCell(x + 1, y);
+                revealCell(x - 1, y + 1);
+                revealCell(x, y + 1);
+                revealCell(x + 1, y + 1);
             }
         }
     }
@@ -161,7 +161,7 @@ const Minesweeper = () => {
     }
 
     function isRevealed(x, y){
-        return revealed[x][y];
+        return revealed[x][y] === "revealed";
     }
 
     // function isFlagged(x, y){
@@ -172,6 +172,10 @@ const Minesweeper = () => {
         return adjacentMines[x][y];
     }
 
+    function isMine(x, y){
+        return mines[x][y];
+    }
+
     return{
         startGame,
         revealCell,
@@ -179,6 +183,7 @@ const Minesweeper = () => {
         isRevealed,
         // isFlagged,
         getAdjacency,
+        isMine,
         getStatus
     }
 }
@@ -209,10 +214,10 @@ const DisplayController = () => {
 
     function createBoard(size){
         gameGrid.style.display = "grid";
-        gameGrid.style.gridTemplateColumns = `repeat(${size}, 20px)`;
-        gameGrid.style.gridTemplateRows = `repeat(${size}, 20px)`;
-        gameGrid.style.width = `${size * 20 + size - 1}px`;
-        gameGrid.style.height = `${size * 20 + size - 1}px`;
+        gameGrid.style.gridTemplateColumns = `repeat(${size}, 25px)`;
+        gameGrid.style.gridTemplateRows = `repeat(${size}, 25px)`;
+        gameGrid.style.width = `${size * 25 + size - 1}px`;
+        gameGrid.style.height = `${size * 25 + size - 1}px`;
 
         for(let i = 0; i < size ** 2; i++){
             let cell = document.createElement("div");
@@ -229,18 +234,25 @@ const DisplayController = () => {
         updateGrid();
         if(minesweeper.getStatus() == 'lost'){
             deathScreen.style.display = 'block';
+        } else if(minesweeper.getStatus() == 'won'){
+            alert("You Win!");
         }
     }
 
-    getX = (i) => i % size;
-    getY = (i) => Math.floor(i / size);
+    getX = (i) => Math.floor(i / size);
+    getY = (i) => i % size;
 
     function updateGrid(){
         let cells = document.querySelectorAll(".cell");
         for(let x = 0; x < size; x++){
             for(let y = 0; y < size; y++){
                 if(minesweeper.isRevealed(x, y)){
-                    imgUrl = getImgUrlForRevelaedCell(minesweeper.getAdjacency(x, y));
+                    let imgUrl = "";
+                    if(minesweeper.isMine(x, y)){
+                        imgUrl = "url(images/creeper.jpeg)";
+                    } else {
+                        imgUrl = getImgUrlForRevelaedCell(minesweeper.getAdjacency(x, y));
+                    }
                     cells[x * size + y].style.backgroundImage = imgUrl;
                 } else {
                     cells[x * size + y].style.backgroundImage = "url(images/grass_side.png)";
