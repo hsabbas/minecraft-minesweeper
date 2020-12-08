@@ -35,7 +35,7 @@ body{
 }
 
 #grid-container{
-    background-color: black;
+    background-color: rgba(0, 0, 0, 0.486);
     margin: 0 auto;
     grid-gap: 1px;
 }
@@ -45,14 +45,7 @@ body{
     height: 20px;
     display: block;
     background-size: cover;
-}
-
-.unrevealed{
     background-image: url(images/grass_side.png);
-}
-
-.revealed{
-    background-image: url(images/stone.png);
 }
 
 #death-screen{

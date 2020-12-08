@@ -1,6 +1,5 @@
 const Minesweeper = () => {
     let gameStatus = 'in progress';
-    // let sizeSetting = '';
     let difficulty = '';
     let size = 0;
     let mines = [];
@@ -157,10 +156,30 @@ const Minesweeper = () => {
         return (x < 0 || x >= size || y < 0 || y >= size);
     }
 
+    function getStatus(){
+        return gameStatus;
+    }
+
+    function isRevealed(x, y){
+        return revealed[x][y];
+    }
+
+    // function isFlagged(x, y){
+    //     return flagged[x][y];
+    // }
+
+    function getAdjacency(x, y){
+        return adjacentMines[x][y];
+    }
+
     return{
         startGame,
         revealCell,
-        flagCell
+        flagCell,
+        isRevealed,
+        // isFlagged,
+        getAdjacency,
+        getStatus
     }
 }
 
@@ -171,6 +190,7 @@ const DisplayController = () => {
     const gameGrid = document.getElementById('grid-container');
     const startBtn = document.getElementById('start-btn');
     const difficultyChoices = document.querySelectorAll('input[name="difficulty"]');
+    const deathScreen = document.getElementById("death-screen");
     let minesweeper = Minesweeper();
     let size = 0;
 
@@ -197,7 +217,67 @@ const DisplayController = () => {
         for(let i = 0; i < size ** 2; i++){
             let cell = document.createElement("div");
             cell.className = "cell unrevealed";
+            cell.addEventListener("click", function(){
+                cellClicked(i);
+            })
             gameGrid.appendChild(cell);
+        }
+    }
+
+    function cellClicked(i){
+        minesweeper.revealCell(getX(i), getY(i));
+        updateGrid();
+        if(minesweeper.getStatus() == 'lost'){
+            deathScreen.style.display = 'block';
+        }
+    }
+
+    getX = (i) => i % size;
+    getY = (i) => Math.floor(i / size);
+
+    function updateGrid(){
+        let cells = document.querySelectorAll(".cell");
+        for(let x = 0; x < size; x++){
+            for(let y = 0; y < size; y++){
+                if(minesweeper.isRevealed(x, y)){
+                    imgUrl = getImgUrlForRevelaedCell(minesweeper.getAdjacency(x, y));
+                    cells[x * size + y].style.backgroundImage = imgUrl;
+                } else {
+                    cells[x * size + y].style.backgroundImage = "url(images/grass_side.png)";
+                }
+            }
+        }
+    }
+
+    function getImgUrlForRevelaedCell(numOfAdj){
+        switch(numOfAdj){
+            case 0:
+                return "url(images/stone.png)";
+                break;
+            case 1:
+                return "url(images/coal_ore.png)";
+                break;
+            case 2:
+                return "url(images/iron_ore.png)";
+                break;
+            case 3:
+                return "url(images/redstone_ore.png)";
+                break;
+            case 4:
+                return "url(images/gold_ore.png)";
+                break;
+            case 5:
+                return "url(images/lapis_ore.png)";
+                break;
+            case 6:
+                return "url(images/emerald_ore.png)";
+                break;
+            case 7:
+                return "url(images/diamond_ore.png)";
+                break;
+            case 8:
+                return "url(images/minecraft_background.jpg)";
+                break;
         }
     }
 
