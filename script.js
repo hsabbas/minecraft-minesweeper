@@ -9,6 +9,7 @@ const Minesweeper = () => {
     let numberOfMines = 0;
 
     function startGame(difficultyPicked = 'normal'){
+        gameStatus = 'in progress';
         setDifficulty(difficultyPicked.toLowerCase());
         initializeArrays();
         addMines();
@@ -191,11 +192,14 @@ const Minesweeper = () => {
 
 const DisplayController = () => {
     const startScreen = document.getElementById('start-screen');
+    const diffScreen = document.getElementById('difficulty-screen');
     const gameBoard = document.getElementById('game-board');
     const gameGrid = document.getElementById('grid-container');
     const startBtn = document.getElementById('start-btn');
     const difficultyChoices = document.querySelectorAll('input[name="difficulty"]');
-    const deathScreen = document.getElementById("death-screen");
+    const endScreen = document.getElementById("end-screen");
+    const endText = document.getElementById("end-text");
+    const newGameBtn = document.getElementById("new-game");
     let minesweeper = Minesweeper();
     let size = 0;
 
@@ -207,7 +211,7 @@ const DisplayController = () => {
             }
         }
         size = minesweeper.startGame(difficulty);
-        startScreen.style.display = 'none';
+        diffScreen.style.display = 'none';
         gameBoard.style.display = 'block';
         createBoard(size);
     }
@@ -233,9 +237,12 @@ const DisplayController = () => {
         minesweeper.revealCell(getX(i), getY(i));
         updateGrid();
         if(minesweeper.getStatus() == 'lost'){
-            deathScreen.style.display = 'block';
+            endScreen.style.display = 'block';
+            endText.innerText = "You Died!";
+            endScreen.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
         } else if(minesweeper.getStatus() == 'won'){
-            alert("You Win!");
+            endScreen.style.display = 'block';
+            endText.innerText = "You Win!";
         }
     }
 
@@ -293,8 +300,17 @@ const DisplayController = () => {
         }
     }
 
+    function newGame(){
+        endScreen.style.display = "none";
+        endScreen.style.backgroundColor = "";
+        gameBoard.style.display = "none";
+        diffScreen.style.display = "block";
+        gameGrid.innerHTML = "";
+    }
+
     function initialize(){
         startBtn.addEventListener("click", start);
+        newGameBtn.addEventListener("click", newGame);
     }
 
     return{initialize};
