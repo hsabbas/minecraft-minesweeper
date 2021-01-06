@@ -29,8 +29,8 @@ const Minesweeper = () => {
                 numberOfMines = 40;
                 break;
             case 'hard':
-                size = 24;
-                numberOfMines = 99;
+                size = 22;
+                numberOfMines = 90;
                 break;
         }
     }
@@ -256,13 +256,13 @@ const DisplayController = () => {
                 if(minesweeper.isRevealed(x, y)){
                     let imgUrl = "";
                     if(minesweeper.isMine(x, y)){
-                        imgUrl = "url(images/creeper.jpeg)";
+                        imgUrl = "url(images/creeper.jpg)";
                     } else {
                         imgUrl = getImgUrlForRevelaedCell(minesweeper.getAdjacency(x, y));
                     }
                     cells[x * size + y].style.backgroundImage = imgUrl;
                 } else {
-                    cells[x * size + y].style.backgroundImage = "url(images/grass_side.png)";
+                    cells[x * size + y].style.backgroundImage = "url(images/grass-top.jpeg)";
                 }
             }
         }

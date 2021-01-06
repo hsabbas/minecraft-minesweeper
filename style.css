@@ -4,10 +4,19 @@ body{
     background-size: cover;
     font-family: minecraftFont;
     z-index: 0;
+    color: white;
+    text-align: center;
 }
 
 #difficulty-screen{
     display: block;
+}
+
+#end-screen{
+    display: none;
+}
+
+.full-screen{
     position: fixed;
     width: 100%;
     height: 100%;
@@ -27,6 +36,9 @@ body{
 
 #start-btn{
     margin-top: 10px;
+}
+
+button{
     font-family: minecraftFont;
 }
 
@@ -46,17 +58,7 @@ body{
     height: 25px;
     display: block;
     background-size: cover;
-    background-image: url(images/grass_side.png);
-}
-
-#end-screen{
-    display: none;
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 4;
+    background-image: url(images/grass-top.jpeg);
 }
 
 #end-popup{
@@ -65,9 +67,79 @@ body{
     margin: 7rem auto;
     padding: 20px;
     line-height: 2rem;
-    color: white;
     font-size: x-large;
     text-align: center;
+}
+
+#legend{
+    background-color: black;
+    border: grey 4px solid;
+    border-radius: 4px;
+    width: 100px;
+    position: fixed;
+    left: 80%;
+    top: 27%;
+}
+
+#legend-header{
+    margin-bottom: 5px;
+}
+
+#legend ul{
+    margin: 0;
+    margin-left: 2px;
+    padding: 0;
+    list-style: none;
+    float: left;
+    line-height: 25px;
+}
+
+#legend ul li{
+    list-style: none;
+    margin-left: 0;
+    margin-bottom: 2px;
+}
+
+#legend ul li span{
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+    margin-right: 7px;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+#key1{
+    background-image: url(images/coal_ore.png);
+}
+
+#key2{
+    background-image: url(images/iron_ore.png);
+}
+
+#key3{
+    background-image: url(images/redstone_ore.png);
+}
+
+#key4{
+    background-image: url(images/gold_ore.png);
+}
+
+#key5{
+    background-image: url(images/lapis_ore.png);
+}
+
+#key6{
+    background-image: url(images/emerald_ore.png);
+}
+
+#key7{
+    background-image: url(images/diamond_ore.png);
+}
+
+#key8{
+    background-image: url(images/minecraft_background.jpg);
 }
 
 @font-face{

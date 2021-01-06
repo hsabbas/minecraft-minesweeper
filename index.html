@@ -6,9 +6,9 @@
     </head>
     <body>
         <!-- <div id="start-screen">
-            <h1>Creeper Sweeper</h1>
+            <h1>Creeper Sweeper!</h1>
         </div> -->
-        <div id="difficulty-screen">
+        <div id="difficulty-screen" class="full-screen">
             <div id="difficulty-menu">
                 <div>Select Difficulty</div>
                 <input type="radio" name="difficulty" value="easy" id="easy">
@@ -21,10 +21,23 @@
             </div>
         </div>
         <div id="game-board">
-            <div id="heading">Find all creepers!</div>
+            <h3>Find all creepers!</h3>
             <div id="grid-container"></div>
         </div>
-        <div id="end-screen">
+        <div id="legend">
+            <div id="legend-header">Creepers near ore</div>
+            <ul>
+                <li><span id=key1></span>- 1</li>
+                <li><span id=key2></span>- 2</li>
+                <li><span id=key3></span>- 3</li>
+                <li><span id=key4></span>- 4</li>
+                <li><span id=key5></span>- 5</li>
+                <li><span id=key6></span>- 6</li>
+                <li><span id=key7></span>- 7</li>
+                <li><span id=key8></span>- 8</li>
+            </ul>
+        </div>
+        <div id="end-screen" class="full-screen">
             <div id="end-popup">
                 <p id="end-text">You Died!</p>
                 <button id="new-game" type="button">New Game</button>
