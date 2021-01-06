@@ -8,8 +8,14 @@ body{
     text-align: center;
 }
 
-h1{
+#intro-heading{
     margin-top: 30px;
+    font-size: xx-large;
+}
+
+#game-heading{
+    font-size: larger;
+    margin: 30px 0;
 }
 
 #intro{
@@ -93,6 +99,31 @@ button{
     line-height: 2rem;
     font-size: x-large;
     text-align: center;
+}
+
+#cats {
+    position: fixed;
+    left: 15%;
+    top: 40%;
+    background-color: rgb(27, 27, 27);
+    border: grey 4px solid;
+    border-radius: 4px;
+    width: 50px;
+    line-height: 25px;
+    padding: 3px;
+}
+
+#cat-icon{
+    background-image: url("images/grass_top_with_cat.png");
+    background-size: cover;
+    display: block;
+    float: left;
+    width: 25px;
+    height: 25px;
+}
+
+#cats-counter{
+    float: right;
 }
 
 #legend{

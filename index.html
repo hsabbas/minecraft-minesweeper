@@ -6,13 +6,14 @@
     </head>
     <body>
         <div id="start-screen">
-            <h1>Creeper Sweeper!</h1>
+            <div id="intro-heading">Creeper Sweeper!</div>
             <div id="intro">
                 <div>Dig down to find ore, but beware of creepers!</div>
                 <div>They are attracted to rare ore, and the rarer the ore, the more creepers there are around it.</div>
                 <div>Use the guide on the right to see how many creepers there are surrounding different kinds of ore.</div>
                 <div>Luckily, creepers are afraid of cats.</div>
-                <div>Right click a block to leave a cat as a sign that a creeper is there</div>
+                <div>Leave a cat where you think there is a creeper by right clicking the block.</div>
+                <div>You get one cat for every creeper on the board.</div>
                 <div id="continue">Continue</div>
             </div>
         </div>
@@ -29,7 +30,10 @@
             </div>
         </div>
         <div id="game-board">
-            <h3>Find all creepers!</h3>
+            <div id="cats">
+                <div id="cat-icon"></div><div id="cats-counter"></div>
+            </div>
+            <div id="game-heading">Find all creepers!</div>
             <div id="grid-container" oncontextmenu="return false;"></div>
         </div>
         <div id="legend">

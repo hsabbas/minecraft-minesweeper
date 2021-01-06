@@ -7,6 +7,7 @@ const Minesweeper = () => {
     let revealed = [];
     let cellsLeft = 0;
     let numberOfMines = 0;
+    let flags = 0;
 
     function startGame(difficultyPicked = 'normal'){
         gameStatus = 'in progress';
@@ -33,6 +34,7 @@ const Minesweeper = () => {
                 numberOfMines = 90;
                 break;
         }
+        flags = numberOfMines;
     }
 
     function addMines(){
@@ -141,16 +143,30 @@ const Minesweeper = () => {
     }
 
     function flagCell(x, y){
-        if(revealed[x][y] == 'sealed'){
+        if(revealed[x][y] == 'sealed' && flags > 0){
             revealed[x][y] = "flagged";
+            flags--;
         } else if(isFlagged(x, y)) {
             revealed[x][y] ='sealed';
+            flags++;
         }
     }
 
     function gameOver(result){
         gameStatus = result;
-        revealed = new Array(size).fill('revealed').map(() => new Array(size).fill('revealed'));
+        if(result === "lost"){
+            revealed = new Array(size).fill('revealed').map(() => new Array(size).fill('revealed')); 
+        } else {
+            for(let x = 0; x < size; x++){
+                for(let y =0; y < size; y++){
+                    if(mines[x][y]){
+                        revealed[x][y] = "flagged";
+                    } else {
+                        revealed[x][y] = "revealed";
+                    }
+                }
+            }
+        }
     }
 
     function outOfBounds(x, y){
@@ -177,6 +193,10 @@ const Minesweeper = () => {
         return mines[x][y];
     }
 
+    function getFlagsLeft(){
+        return flags;
+    }
+
     return{
         startGame,
         revealCell,
@@ -185,7 +205,8 @@ const Minesweeper = () => {
         isFlagged,
         getAdjacency,
         isMine,
-        getStatus
+        getStatus,
+        getFlagsLeft
     }
 }
 
@@ -201,6 +222,7 @@ const DisplayController = () => {
     const endScreen = document.getElementById("end-screen");
     const endText = document.getElementById("end-text");
     const newGameBtn = document.getElementById("new-game");
+    const catsCounter = document.getElementById("cats-counter");
     let minesweeper = Minesweeper();
     let size = 0;
 
@@ -215,6 +237,7 @@ const DisplayController = () => {
         diffScreen.style.display = 'none';
         gameBoard.style.display = 'block';
         createBoard(size);
+        catsCounter.innerText = minesweeper.getFlagsLeft();
     }
 
     function createBoard(size){
@@ -241,6 +264,7 @@ const DisplayController = () => {
         
         if (rightClick){
             minesweeper.flagCell(getX(i), getY(i));
+            catsCounter.innerText = minesweeper.getFlagsLeft();
         } else {
             minesweeper.revealCell(getX(i), getY(i));
             if(minesweeper.getStatus() == 'lost'){
