@@ -143,7 +143,7 @@ const Minesweeper = () => {
     function flagCell(x, y){
         if(revealed[x][y] == 'sealed'){
             revealed[x][y] = "flagged";
-        } else if(revealed[x][y] == 'flagged') {
+        } else if(isFlagged(x, y)) {
             revealed[x][y] ='sealed';
         }
     }
@@ -165,9 +165,9 @@ const Minesweeper = () => {
         return revealed[x][y] === "revealed";
     }
 
-    // function isFlagged(x, y){
-    //     return flagged[x][y];
-    // }
+    function isFlagged(x, y){
+        return revealed[x][y] ==="flagged";
+    }
 
     function getAdjacency(x, y){
         return adjacentMines[x][y];
@@ -182,7 +182,7 @@ const Minesweeper = () => {
         revealCell,
         flagCell,
         isRevealed,
-        // isFlagged,
+        isFlagged,
         getAdjacency,
         isMine,
         getStatus
@@ -227,28 +227,37 @@ const DisplayController = () => {
         for(let i = 0; i < size ** 2; i++){
             let cell = document.createElement("div");
             cell.className = "cell unrevealed";
-            cell.addEventListener("click", function(){
-                cellClicked(i);
+            cell.addEventListener("mouseup", function(e){
+                cellClicked(e, i);
             })
             gameGrid.appendChild(cell);
         }
     }
 
-    function cellClicked(i){
-        minesweeper.revealCell(getX(i), getY(i));
-        updateGrid();
-        if(minesweeper.getStatus() == 'lost'){
-            endScreen.style.display = 'block';
-            endText.innerText = "You Died!";
-            endScreen.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
-        } else if(minesweeper.getStatus() == 'won'){
-            endScreen.style.display = 'block';
-            endText.innerText = "You Win!";
+    function cellClicked(e, i){
+        let rightClick;
+	    if (e.which) rightClick = (e.which == 3);
+        else if (e.button) rightClick = (e.button == 2);
+        
+        if (rightClick){
+            minesweeper.flagCell(getX(i), getY(i));
+        } else {
+            minesweeper.revealCell(getX(i), getY(i));
+            if(minesweeper.getStatus() == 'lost'){
+                endScreen.style.display = 'block';
+                endText.innerText = "You Died!";
+                endScreen.style.backgroundColor = "rgba(255, 0, 0, 0.3)";
+            } else if(minesweeper.getStatus() == 'won'){
+                endScreen.style.display = 'block';
+                endText.innerText = "You Win!";
+            }
         }
+        updateGrid();
     }
 
     getX = (i) => Math.floor(i / size);
     getY = (i) => i % size;
+    getIndex = (x, y) => x * size + y;
 
     function updateGrid(){
         let cells = document.querySelectorAll(".cell");
@@ -257,13 +266,15 @@ const DisplayController = () => {
                 if(minesweeper.isRevealed(x, y)){
                     let imgUrl = "";
                     if(minesweeper.isMine(x, y)){
-                        imgUrl = "url(images/creeper.jpg)";
+                        imgUrl = "url(images/creeper_face.png)";
                     } else {
                         imgUrl = getImgUrlForRevelaedCell(minesweeper.getAdjacency(x, y));
                     }
-                    cells[x * size + y].style.backgroundImage = imgUrl;
+                    cells[getIndex(x, y)].style.backgroundImage = imgUrl;
+                } else if(minesweeper.isFlagged(x, y)) {
+                    cells[getIndex(x, y)].style.backgroundImage = "url(images/grass_top_with_cat.png)";
                 } else {
-                    cells[x * size + y].style.backgroundImage = "url(images/grass-top.jpeg)";
+                    cells[getIndex(x, y)].style.backgroundImage = "url(images/grass-top.jpeg)";
                 }
             }
         }
@@ -296,7 +307,7 @@ const DisplayController = () => {
                 return "url(images/diamond_ore.png)";
                 break;
             case 8:
-                return "url(images/minecraft_background.jpg)";
+                return "url(images/ancient_debris_side.png)";
                 break;
         }
     }

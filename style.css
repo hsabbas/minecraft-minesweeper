@@ -8,8 +8,12 @@ body{
     text-align: center;
 }
 
+h1{
+    margin-top: 30px;
+}
+
 #intro{
-    margin: 50px auto;
+    margin: 30px auto;
     width: 60%;
     font-size: larger;
 }
@@ -19,7 +23,7 @@ body{
 }
 
 #continue{
-    margin-top: 100px;
+    margin-top: 60px;
     font-size: xx-large;
 }
 
@@ -159,7 +163,7 @@ button{
 }
 
 #key8{
-    background-image: url(images/minecraft_background.jpg);
+    background-image: url(images/ancient_debris_side.png);
 }
 
 @font-face{
