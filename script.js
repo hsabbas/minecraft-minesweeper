@@ -192,6 +192,7 @@ const Minesweeper = () => {
 
 const DisplayController = () => {
     const startScreen = document.getElementById('start-screen');
+    const continueBtn = document.getElementById('continue');
     const diffScreen = document.getElementById('difficulty-screen');
     const gameBoard = document.getElementById('game-board');
     const gameGrid = document.getElementById('grid-container');
@@ -308,7 +309,13 @@ const DisplayController = () => {
         gameGrid.innerHTML = "";
     }
 
+    function continueClicked(){
+        startScreen.style.display = "none";
+        diffScreen.style.display = "block"
+    }
+
     function initialize(){
+        continueBtn.addEventListener("click", continueClicked);
         startBtn.addEventListener("click", start);
         newGameBtn.addEventListener("click", newGame);
     }

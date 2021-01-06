@@ -8,8 +8,28 @@ body{
     text-align: center;
 }
 
+#intro{
+    margin: 50px auto;
+    width: 60%;
+    font-size: larger;
+}
+
+#intro div{
+    margin-bottom: 15px;
+}
+
+#continue{
+    margin-top: 100px;
+    font-size: xx-large;
+}
+
+#continue:hover{
+    cursor: pointer;
+    text-shadow: 0 0 2px white;
+}
+
 #difficulty-screen{
-    display: block;
+    display: none;
 }
 
 #end-screen{
@@ -72,12 +92,12 @@ button{
 }
 
 #legend{
-    background-color: black;
+    background-color: rgb(27, 27, 27);
     border: grey 4px solid;
     border-radius: 4px;
     width: 100px;
     position: fixed;
-    left: 80%;
+    left: 85%;
     top: 27%;
 }
 
