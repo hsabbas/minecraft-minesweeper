@@ -201,3 +201,13 @@ button{
     font-family: minecraftFont;
     src: url('Minecraft-Regular.otf');
 }
+
+#github-link{
+    position: fixed;
+    left: 97%;
+    top: 95%;
+}
+
+#github-link img{
+    width: 50px;
+}
